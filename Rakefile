@@ -38,3 +38,18 @@ end
 
 
 task :default => :test
+
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "uniquify"
+    gemspec.summary = "Generate a unique token with Active Record."
+    gemspec.description = "Generate a unique token with Active Record."
+    gemspec.email = "ryan@railscasts.com"
+    gemspec.homepage = "http://github.com/ryanb/uniquify"
+    gemspec.authors = ["Ryan Bates"]
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler not available. Install it with: sudo gem install jeweler -s http://gemcutter.org"
+end

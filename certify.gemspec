@@ -7,11 +7,11 @@ require "certify/version"
 Gem::Specification.new do |s|
   s.name        = "certify"
   s.version     = Certify::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Certify."
-  s.description = "TODO: Description of Certify."
+  s.authors     = ["Dirk Eisenberg"]
+  s.email       = ["dirk.eisenberg@gmail.com"]
+  s.homepage    = "https://github.com/dei79/certify"
+  s.summary     = "Certify is a Ruby on Rails / OpenSSL based CA engine which can be mounted in every rails application of your choice!"
+  s.description = "Certify is a Ruby on Rails / OpenSSL based CA engine which can be mounted in every rails application of your choice!"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]

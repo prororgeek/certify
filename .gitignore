@@ -1,5 +1,6 @@
 .bundle/
 .idea/
+*.gem
 log/*.log
 pkg/
 test/dummy/db/*.sqlite3
