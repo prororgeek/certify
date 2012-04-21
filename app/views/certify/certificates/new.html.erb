@@ -1,0 +1,24 @@
+<h1>Add a certificate signing request!</h1>
+
+<%= form_for(@certificate) do |f| %>
+    <% if @certificate.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@certificate.errors.count, "error") %> prohibited this certificate_authority from being saved:</h2>
+
+          <ul>
+            <% @certificate.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <label for="csr">Signing Request</label>:
+      <textarea id="csr" name="csr" size="30" type="text"></textarea><br/>
+    </div>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+<% end %>

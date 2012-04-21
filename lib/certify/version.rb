@@ -1,0 +1,3 @@
+module Certify
+  VERSION = "0.0.1"
+end

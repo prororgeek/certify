@@ -1,0 +1,45 @@
+<%= form_for(@authority) do |f| %>
+    <% if @authority.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@authority.errors.count, "error") %> prohibited this certificate_authority from being saved:</h2>
+
+          <ul>
+            <% @authority.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :uniqueid %><br />
+      <%= f.text_field :uniqueid, :disabled => true %>
+    </div>
+    <div class="field">
+      <%= f.label :commonname %><br />
+      <%= f.text_field :commonname %>
+    </div>
+    <div class="field">
+      <%= f.label :organization %><br />
+      <%= f.text_field :organization %>
+    </div>
+    <div class="field">
+      <%= f.label :city %><br />
+      <%= f.text_field :city %>
+    </div>
+    <div class="field">
+      <%= f.label :state %><br />
+      <%= f.text_field :state %>
+    </div>
+    <div class="field">
+      <%= f.label :country %><br />
+      <%= f.text_field :country %>
+    </div>
+    <div class="field">
+      <%= f.label :email %><br />
+      <%= f.text_field :email %>
+    </div>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+<% end %>
