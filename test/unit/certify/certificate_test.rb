@@ -4,7 +4,7 @@ module Certify
   class CertificateTest < ActiveSupport::TestCase
     test "generate new certificate in ca" do
       # create a new model
-      ca = Authority.new(:commonname => "applimit", :organization => "app.limit UG", :city => "Filderstadt", :state => "BW", :country => "DE", :email => "info@applimit.com")
+      ca = Authority.new(:commonname => "company", :organization => "company Inc.", :city => "Town", :state => "BW", :country => "DE", :email => "info@company.com")
 
       # validate
       assert ca.valid?, ca.errors.full_messages.join('; ')
