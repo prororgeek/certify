@@ -3,16 +3,16 @@ sqlite: &sqlite
   database: db/<%= Rails.env %>.sqlite3
 
 mysql: &mysql
-  adapter: mysql2
+  adapter: mysql
   username: root
   password:
-  database: myapp_<%= Rails.env %>
+  database: certify_<%= Rails.env %>
 
 defaults: &defaults
   pool: 5
   timeout: 5000
   host: localhost
-  <<: *<%= ENV['DB'] || "postgresql" %>
+  <<: *<%= ENV['DB'] || "sqlite" %>
 
 development:
   <<: *defaults
