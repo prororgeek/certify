@@ -8,13 +8,6 @@ mysql: &mysql
   password:
   database: myapp_<%= Rails.env %>
 
-postgresql: &postgresql
-  adapter: postgresql
-  username: postgres
-  password:
-  database: myapp_<%= Rails.env %>
-  min_messages: ERROR
-
 defaults: &defaults
   pool: 5
   timeout: 5000

@@ -13,6 +13,12 @@ gem "jquery-rails"
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
+# sqlite support
+gem 'sqlite3'
+
+# mysql support
+gem 'mysql'
+
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
