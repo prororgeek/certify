@@ -36,12 +36,4 @@ Rake::TestTask.new(:test) do |t|
   t.verbose = false
 end
 
-task(:test_all) do  
-  Rails.env = "test"
-  puts "run the migrations"  
-  Rake::Task['db:migrate'].invoke
-  puts "test all"
-  Rake::Task['test'].execute  
-end  
-
-task :default => :test_all
+task :default => :test
