@@ -19,6 +19,9 @@ gem 'sqlite3'
 # mysql support
 gem 'mysql'
 
+# postgre sql
+gem 'pg'
+
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
