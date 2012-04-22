@@ -1,5 +1,5 @@
 module Certify
-  class CertificatesController < CertifyApplicationController
+  class CertificatesController < ApplicationController
 
     # GET /certificates/1
     # GET /certificates/1.json

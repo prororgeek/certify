@@ -1,5 +1,5 @@
 module Certify
-  class AuthoritiesController < CertifyApplicationController
+  class AuthoritiesController < ApplicationController
     # GET /authorities
     # GET /authorities.json
     def index
