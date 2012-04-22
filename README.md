@@ -13,3 +13,11 @@ gem install certify or update your Gemfile
 rake certify:install:migrations
 
 rake db:migrate
+
+Start using it
+==============
+
+Just mount the engine into your app with adding the following code to routes.rb of your rails app: mount Certify::Engine => "/certify"
+
+Don't forget to use in your layout helpers in the following style main_app.root_url!
+
