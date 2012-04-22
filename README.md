@@ -19,5 +19,4 @@ Start using it
 
 Just mount the engine into your app with adding the following code to routes.rb of your rails app: mount Certify::Engine => "/certify"
 
-Don't forget to use in your layout helpers in the following style main_app.root_url!
-
+Don't forget to use in shared layout view helpers as follows: main_app.root_url!
