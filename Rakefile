@@ -36,5 +36,16 @@ Rake::TestTask.new(:test) do |t|
   t.verbose = false
 end
 
+task(:test_all) do  
+  Rails.env = "test"
+  puts "drop the db"  
+  Rake::Task['db:drop'].invoke
+  puts "create the db"  
+  Rake::Task['db:create'].invoke
+  puts "run the migrations"  
+  Rake::Task['db:migrate'].invoke
+  puts "test all"
+  Rake::Task['test'].execute  
+end  
 
-task :default => :test
+task :default => :test_all
