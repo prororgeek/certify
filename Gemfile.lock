@@ -9,6 +9,8 @@ PATH
   specs:
     certify (0.0.1)
       rails (~> 3.2.3)
+      uuidtools
+      validates_email_format_of
 
 GEM
   remote: http://rubygems.org/

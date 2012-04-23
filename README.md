@@ -10,15 +10,24 @@ Certify is a Ruby on Rails / OpenSSL based CA engine which can be mounted in eve
 Installation
 ============
 
-gem install certify or update your Gemfile
+add to your Gemfile: gem 'certify', :git => 'git://github.com/dei79/certify.git'
 
-rake certify:install:migrations
+install our migrations: rake certify_engine:install:migrations
 
-rake db:migrate
+migrate your db: rake db:migrate
 
 Start using it
 ==============
 
-Just mount the engine into your app with adding the following code to routes.rb of your rails app: mount Certify::Engine => "/certify"
+check if the engine is available: rake routes
 
-Don't forget to use in shared layout view helpers as follows: main_app.root_url!
+Add before_filter to our controllers (e.g. access check)
+========================================================
+
+add a certify initializer in your app (certify.rb) with the following content (replace :backend_rights_required with your handler):
+
+Certify::AuthoritiesController.before_filter :backend_rights_required
+Certify::CertificatesController.before_filter :backend_rights_required
+
+
+
