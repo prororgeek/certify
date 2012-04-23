@@ -1,0 +1,24 @@
+<h1>Existing Certificate Authorities</h1>
+
+<table>
+  <tr>
+    <th>Commonname</th>
+    <th>Organization</th>
+    <th>Email</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% @authorities.each do |authority| %>
+      <tr>
+        <td><%= link_to authority.commonname , authority %></td>
+        <td><%= authority.organization %></td>
+        <td><%= authority.email %></td>
+        <td><%= link_to 'Destroy', authority, confirm: 'Are you sure?', method: :delete %></td>
+      </tr>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Certificate authority', new_certify_authority_path %>

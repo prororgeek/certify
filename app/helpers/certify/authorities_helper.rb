@@ -1,0 +1,2 @@
+module Certify::AuthoritiesHelper
+end

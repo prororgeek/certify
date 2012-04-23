@@ -1,0 +1,2 @@
+module Certify::CertificatesHelper
+end
