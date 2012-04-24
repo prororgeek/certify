@@ -33,6 +33,12 @@ EUKCs2HmUX2HQTkA7EoO
       assert cert.valid?, cert.errors.full_messages.join('; ')
       assert !cert.new_record?, "Record was not saved during generation"
       assert_equal cert.serial, cert.id
+
+      cert2 = Certificate.find_by_serial(cert.id)
+      assert cert2, "Certificate not found"
+
+      cert3 = ca.find_certificate_by_serial(cert.id)
+      assert cert3, "Certificate not found"
     end
   end
 end

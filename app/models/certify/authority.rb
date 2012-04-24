@@ -132,5 +132,9 @@ module Certify
       # store the root ca
       self.sslcert = root_ca.to_pem
     end
+
+    def find_certificate_by_serial(serial)
+      self.certificates.find_by_serial(serial)
+    end
   end
 end

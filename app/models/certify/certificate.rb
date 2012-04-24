@@ -4,7 +4,7 @@ module Certify
     self.table_name=  'certify_certificates'
 
     # accessor
-    attr_accessible :certify_authority, :ssldata, :uniqueid
+    attr_accessible :certify_authority, :ssldata, :uniqueid, :serial
 
     # associations
     belongs_to :authority, :inverse_of => :certificates
@@ -69,6 +69,10 @@ module Certify
 
       # emit result
       certificate
+    end
+
+    def self.find_by_serial(serial)
+      Certificate.find(serial)
     end
   end
 end
