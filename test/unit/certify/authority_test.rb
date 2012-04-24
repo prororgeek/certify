@@ -16,5 +16,14 @@ module Certify
       assert_equal "DE", ca.country
       assert_equal "info@company.com", ca.email
     end
+
+    test "find a non existing certificate by serial" do
+      # create a new model
+      ca = Authority.new(:commonname => "company", :organization => "company Inc.", :city => "Town", :state => "BW", :country => "DE", :email => "info@company.com")
+
+      # find
+      cert = ca.find_certificate_by_serial(34)
+      assert cert.nil?
+      end
   end
 end

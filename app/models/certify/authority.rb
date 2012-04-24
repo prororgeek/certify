@@ -134,7 +134,9 @@ module Certify
     end
 
     def find_certificate_by_serial(serial)
-      self.certificates.find_by_serial(serial)
+      self.certificates.find_by_serial(serial.to_i)
+    rescue
+      nil
     end
   end
 end
