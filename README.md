@@ -26,8 +26,4 @@ Add before_filter to our controllers (e.g. access check)
 
 add a certify initializer in your app (certify.rb) with the following content (replace :backend_rights_required with your handler):
 
-Certify::AuthoritiesController.before_filter :backend_rights_required
-Certify::CertificatesController.before_filter :backend_rights_required
-
-
-
+[certify.rb](https://gist.github.com/2483757 "Adding before_filter_handler")
