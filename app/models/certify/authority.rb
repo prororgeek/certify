@@ -106,7 +106,7 @@ module Certify
       self.rsakey = root_key.to_pem
 
       # generate the CA name
-      ca_name_str = "/C=#{country}/ST=#{state}/O=#{organization}/L=#{city}/CN=#{commonname}/emailAddress=#{email}"
+      ca_name_str = "/C=#{country}/ST=#{state}/L=#{city}/O=#{organization}/CN=#{commonname}/emailAddress=#{email}"
 
       # parse the name
       ca_name = OpenSSL::X509::Name.parse  ca_name_str
