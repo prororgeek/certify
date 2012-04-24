@@ -40,15 +40,15 @@
 
 <table>
   <tr>
-    <th>Uniqueid</th>
-    <th>Ssldata</th>
+    <th>Serial</th>
+    <th>Data</th>
     <th></th>
     <th></th>
   </tr>
 
   <% @authority.certificates.each do |certificate| %>
       <tr>
-        <td><%= certificate.uniqueid %></td>
+        <td><%= certificate.serial %></td>
         <td><%= certificate.ssldata %></td>
         <td><%= link_to 'Show', certify_certificate_path(certificate, :certify_authority_id => certificate.authority)%></td>
         <td><%= link_to 'Destroy', certify_certificate_path(certificate, :certify_authority_id => certificate.authority), confirm: 'Are you sure?', method: :delete %></td>

@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20120423195509) do
     t.text     "sslcert"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "lastserial"
   end
 
   create_table "certify_certificates", :force => true do |t|

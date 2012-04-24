@@ -34,14 +34,11 @@ module Certify
       @authority = Certify::Authority.find(params[:certify_authority_id])
 
       # create the cert
-      @certificate = @authority.certificates.build()
-
-      # apply the csr
-      @certificate.csr=params[:csr]
+      @certificate = Certify::Certificate.sign_csr_for_ca(params[:csr], @authority)
 
       # format
       respond_to do |format|
-        if @certificate.save
+        if @certificate.valid?
           format.html { redirect_to certify_authority_path(@authority), notice: 'Certificate was successfully created.' }
           format.json { render json: @certificate, status: :created, location: @certificate }
         else
