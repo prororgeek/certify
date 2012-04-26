@@ -129,5 +129,19 @@ module Certify
       # store the root ca
       self.sslcert = root_ca.to_pem
     end
+
+    def self.find_by_commonname(cn)
+      result= Array.new()
+
+      Authority.all.each do |a|
+
+        if a.commonname.eql?(cn)
+          result.append(a)
+        end
+
+      end
+
+      result
+    end
   end
 end
