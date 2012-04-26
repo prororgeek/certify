@@ -1,7 +1,10 @@
 module Certify
   class Certificate < ActiveRecord::Base
+    # set the table name
+    self.table_name=  'certify_certificates'
+
     # accessor
-    attr_accessible :certify_authority, :ssldata, :uniqueid
+    attr_accessible :certify_authority, :ssldata, :uniqueid, :serial
 
     # associations
     belongs_to :authority, :inverse_of => :certificates
@@ -13,19 +16,35 @@ module Certify
     # handler
     after_initialize :generate_unique_id
 
-    # set the csr where you want to generate a certificate from
-    def csr=(csrpem)
+    def sslcertificate
+      OpenSSL::X509::Certificate.new(self.ssldata) if self.ssldata
+    end
+
+    def serial
+      if sslcertificate
+        sslcertificate.serial
+      else
+        0
+      end
+    end
+
+    def self.sign_csr_for_ca(csr_in_pem_format, ca)
+      # create a new certificate record to get a unique db id
+      certificate = ca.certificates.build(:ssldata => "Certificate pending")
+      if !certificate.save
+        nil
+      end
+
       # read the csr
-      csr = OpenSSL::X509::Request.new(csrpem)
+      csr = OpenSSL::X509::Request.new(csr_in_pem_format)
 
       # get the ca_cert
-      ca = self.authority
       ca_cert = ca.root_certificate
       ca_key = ca.private_key
 
       # generate a new cert
       csr_cert = OpenSSL::X509::Certificate.new
-      csr_cert.serial = 0
+      csr_cert.serial = certificate.id
       csr_cert.version = 2
       csr_cert.not_before = Time.now
       csr_cert.not_after = Time.now + 600
@@ -45,7 +64,15 @@ module Certify
 
       csr_cert.sign ca_key, OpenSSL::Digest::SHA1.new
 
-      self.ssldata = csr_cert.to_pem
+      # update certificate attribute
+      certificate.update_attributes(:ssldata => csr_cert.to_pem)
+
+      # emit result
+      certificate
+    end
+
+    def self.find_by_serial(serial)
+      Certificate.find(serial)
     end
   end
 end

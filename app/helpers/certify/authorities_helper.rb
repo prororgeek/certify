@@ -1,4 +1,2 @@
-module Certify
-  module AuthoritiesHelper
-  end
+module Certify::AuthoritiesHelper
 end

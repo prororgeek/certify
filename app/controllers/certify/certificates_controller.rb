@@ -4,22 +4,22 @@ module Certify
     # GET /certificates/1
     # GET /certificates/1.json
     def show
-      @certificate = Certificate.find(params[:id])
-  
+      @certificate = Certify::Certificate.find(params[:id])
+
       respond_to do |format|
         format.html # show.html.erb
         format.json { render json: @certificate }
       end
     end
-  
+
     # GET /certificates/new
     # GET /certificates/new.json
     def new
       # get the authority
-      @authority = Authority.find(params[:certify_authority_id])
+      @authority = Certify::Authority.find(params[:certify_authority_id])
 
       # generate a new one
-      @certificate = Certificate.new()
+      @certificate = Certify::Certificate.new()
 
       respond_to do |format|
         format.html # new.html.erb
@@ -31,18 +31,15 @@ module Certify
     # POST /certificates.json
     def create
       # get the ca
-      @authority = Authority.find(params[:certify_authority_id])
+      @authority = Certify::Authority.find(params[:certify_authority_id])
 
       # create the cert
-      @certificate = @authority.certificates.build()
-
-      # apply the csr
-      @certificate.csr=params[:csr]
+      @certificate = Certify::Certificate.sign_csr_for_ca(params[:csr], @authority)
 
       # format
       respond_to do |format|
-        if @certificate.save
-          format.html { redirect_to authority_path(@authority), notice: 'Certificate was successfully created.' }
+        if @certificate.valid?
+          format.html { redirect_to certify_authority_path(@authority), notice: 'Certificate was successfully created.' }
           format.json { render json: @certificate, status: :created, location: @certificate }
         else
           format.html { render action: "new" }
@@ -55,14 +52,14 @@ module Certify
     # DELETE /certificates/1.json
     def destroy
       # get the ca
-      @authority = Authority.find(params[:certify_authority_id])
+      @authority = Certify::Authority.find(params[:certify_authority_id])
 
       # get the certificate
-      @certificate = Certificate.find(params[:id])
+      @certificate = Certify::Certificate.find(params[:id])
       @certificate.destroy
-  
+
       respond_to do |format|
-        format.html { redirect_to authority_path(@authority), notice: 'Certificate removed' }
+        format.html { redirect_to certify_authority_path(@authority), notice: 'Certificate removed' }
         format.json { head :no_content }
       end
     end

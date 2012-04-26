@@ -1,5 +1,8 @@
 module Certify
   class Authority < ActiveRecord::Base
+    # set the table name
+    self.table_name=  'certify_authorities'
+
     # make this attributes accessable in forms and so on
     attr_accessible :commonname, :organization, :city, :state, :country, :email
 
@@ -103,7 +106,7 @@ module Certify
       self.rsakey = root_key.to_pem
 
       # generate the CA name
-      ca_name_str = "/C=#{country}/ST=#{state}/O=#{organization}/L=#{city}/CN=#{commonname}/emailAddress=#{email}"
+      ca_name_str = "/C=#{country}/ST=#{state}/L=#{city}/O=#{organization}/CN=#{commonname}/emailAddress=#{email}"
 
       # parse the name
       ca_name = OpenSSL::X509::Name.parse  ca_name_str
@@ -142,6 +145,12 @@ module Certify
       end
 
       result
+    end
+
+    def find_certificate_by_serial(serial)
+      self.certificates.find_by_serial(serial.to_i)
+    rescue
+      nil
     end
   end
 end

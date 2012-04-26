@@ -1,6 +1,4 @@
 require 'test_helper'
 
-module Certify
-  class AuthoritiesHelperTest < ActionView::TestCase
-  end
+class Certify::AuthoritiesHelperTest < ActionView::TestCase
 end

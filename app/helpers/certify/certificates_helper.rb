@@ -1,4 +1,2 @@
-module Certify
-  module CertificatesHelper
-  end
+module Certify::CertificatesHelper
 end

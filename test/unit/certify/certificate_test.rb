@@ -25,15 +25,20 @@ rUI/OyKPRlLzIsANUlD2ubfZWa6um9MIoeMQvISwoz8TIgZ5WGzNHTi+/ONA2wv9
 EUKCs2HmUX2HQTkA7EoO
 -----END CERTIFICATE REQUEST-----"
 
+
       # create the certificate
-      cert = ca.certificates.build
-      cert.csr = csr
+      cert = Certificate.sign_csr_for_ca(csr, ca)
 
       # validate
       assert cert.valid?, cert.errors.full_messages.join('; ')
-      assert cert.save
+      assert !cert.new_record?, "Record was not saved during generation"
+      assert_equal cert.serial, cert.id
 
-      #validate the fields of the certificate
+      cert2 = Certificate.find_by_serial(cert.id)
+      assert cert2, "Certificate not found"
+
+      cert3 = ca.find_certificate_by_serial(cert.id)
+      assert cert3, "Certificate not found"
     end
   end
 end

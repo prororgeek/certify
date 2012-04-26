@@ -4,6 +4,7 @@ class CreateCertifyAuthorities < ActiveRecord::Migration
       t.string :uniqueid
       t.text :rsakey
       t.text :sslcert
+
       t.timestamps
     end
   end

@@ -16,8 +16,16 @@ gem "jquery-rails"
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
+# sqlite support
+gem 'sqlite3'
+
+# mysql support
+gem 'mysql'
+
 # need to generate uuids
 gem 'uuidtools'
 
 # email validator
 gem 'validates_email_format_of', :git => 'git://github.com/alexdunae/validates_email_format_of.git'
+
+

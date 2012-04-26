@@ -19,5 +19,14 @@ module Certify
       assert Authority.find_by_commonname("company"), "Could not find generated authority"
       assert_equal 1, Authority.find_by_commonname("company").count
     end
+
+    test "find a non existing certificate by serial" do
+      # create a new model
+      ca = Authority.new(:commonname => "company", :organization => "company Inc.", :city => "Town", :state => "BW", :country => "DE", :email => "info@company.com")
+
+      # find
+      cert = ca.find_certificate_by_serial(34)
+      assert cert.nil?
+      end
   end
 end

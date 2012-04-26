@@ -1,7 +1,5 @@
 require 'test_helper'
 
-module Certify
-  class CertificatesControllerTest < ActionController::TestCase
+class Certify::CertificatesControllerTest < ActionController::TestCase
 
-  end
 end
