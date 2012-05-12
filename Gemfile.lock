@@ -102,3 +102,4 @@ DEPENDENCIES
   mysql
   sqlite3
   uuidtools
+  validates_email_format_of

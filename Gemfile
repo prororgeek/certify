@@ -24,3 +24,5 @@ gem 'mysql'
 
 # need to generate uuids
 gem 'uuidtools'
+
+gem "validates_email_format_of"
