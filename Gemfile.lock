@@ -1,9 +1,3 @@
-GIT
-  remote: git://github.com/alexdunae/validates_email_format_of.git
-  revision: 46b832f7c778cc73f45ebc84cffba03c33294928
-  specs:
-    validates_email_format_of (1.5.3)
-
 PATH
   remote: .
   specs:
@@ -97,6 +91,7 @@ GEM
       polyglot (>= 0.3.1)
     tzinfo (0.3.33)
     uuidtools (2.1.2)
+    validates_email_format_of (1.5.3)
 
 PLATFORMS
   ruby
@@ -107,4 +102,3 @@ DEPENDENCIES
   mysql
   sqlite3
   uuidtools
-  validates_email_format_of!
