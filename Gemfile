@@ -25,7 +25,4 @@ gem 'mysql'
 # need to generate uuids
 gem 'uuidtools'
 
-# email validator
-gem 'validates_email_format_of', :git => 'git://github.com/alexdunae/validates_email_format_of.git'
-
-
+gem "validates_email_format_of"

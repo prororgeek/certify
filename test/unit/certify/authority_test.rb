@@ -15,6 +15,9 @@ module Certify
       assert_equal "BW", ca.state
       assert_equal "DE", ca.country
       assert_equal "info@company.com", ca.email
+
+      assert Authority.find_by_commonname("company"), "Could not find generated authority"
+      assert_equal 1, Authority.find_by_commonname("company").count
     end
 
     test "find a non existing certificate by serial" do

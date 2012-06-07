@@ -18,7 +18,7 @@ module Certify
     validates_format_of :commonname, :with => /^[\w\-@]*$/, :message => "Only letters or numbers allowed"
     validates_length_of :country, :maximum => 2
     validates_format_of :country, :with => /^[a-zA-Z]*$/, :message => "Only letters allowed"
-    validates_email_format_of :email
+    validates :email, :email_format => {:message => 'invalid email format'}
 
     # handler
     after_initialize :generate_unique_id
@@ -131,6 +131,20 @@ module Certify
 
       # store the root ca
       self.sslcert = root_ca.to_pem
+    end
+
+    def self.find_by_commonname(cn)
+      result= Array.new()
+
+      Authority.all.each do |a|
+
+        if a.commonname.eql?(cn)
+          result.append(a)
+        end
+
+      end
+
+      result
     end
 
     def find_certificate_by_serial(serial)
