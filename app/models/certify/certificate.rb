@@ -47,7 +47,7 @@ module Certify
       csr_cert.serial = certificate.id
       csr_cert.version = 2
       csr_cert.not_before = Time.now
-      csr_cert.not_after = Time.now + 600
+      csr_cert.not_after = Time.now + (365 * 24 * 60 * 60)
 
       csr_cert.subject = csr.subject
       csr_cert.public_key = csr.public_key
