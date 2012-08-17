@@ -11,7 +11,7 @@ module Certify
     validates :ssldata, :presence => true
 
     # attribute accessors
-    attr_accessible :authority_id, :ssldata, :uniqueid
+    attr_accessible :authority_id, :authority, :ssldata, :uniqueid
 
     # handler
     after_initialize :generate_unique_id

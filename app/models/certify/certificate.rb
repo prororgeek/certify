@@ -45,7 +45,7 @@ module Certify
       friendly_key = options[:display]
       friendly_key = "key" unless friendly_key
 
-      OpenSSL::PKCS12::create(password, friendly_key, pkey, cert, [ self.authority.root_certificate ])
+      OpenSSL::PKCS12::create(password, friendly_key, pkey, cert, [ self.authority.root_certificate.to_x509 ])
     end
 
     def to_p12(password)

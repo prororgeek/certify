@@ -40,7 +40,7 @@ module Certify
       # issue a certificate
       cert = ca.sign_csr(csr)
       assert cert.valid?
-      assert cert.to_x509.verify(ca.private_key), cert.errors.full_messages.join('; ')
+      assert cert.to_x509.verify(ca.root_key_pair.to_x509), cert.errors.full_messages.join('; ')
 
       # try to build a p12 file from that
       p12 = cert.to_p12(:password => "testpwd")

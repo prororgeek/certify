@@ -26,12 +26,13 @@ module Certify
     before_create :generate_new_ca
 
     # property accessors
-    def private_key
-      OpenSSL::PKey::RSA.new(self.rsakey) if self.rsakey
+    def root_key_pair
+      @root_key_pair ||= KeyPair.new(:ssldata => self.rsakey, :authority => self) if self.rsakey
+      @root_key_pair
     end
 
     def root_certificate
-      OpenSSL::X509::Certificate.new(self.sslcert) if self.sslcert
+      @root_certificate ||= Certificate.new(:ssldata => self.sslcert, :authority => self) if self.sslcert
     end
 
     def commonname
@@ -86,7 +87,7 @@ module Certify
     # This method builds the subject hash from the x509 name
     def subject_hash
       # get the array from the name
-      dataArray = self.root_certificate.subject.to_a
+      dataArray = self.root_certificate.to_x509.subject.to_a
 
       # create the result hash
       dataHash = Hash.new()
@@ -163,8 +164,8 @@ module Certify
       csr = csr_obj.to_x509
 
       # get the ca_cert
-      ca_cert = self.root_certificate
-      ca_key = self.private_key
+      ca_cert = self.root_certificate.to_x509
+      ca_key = self.root_key_pair.to_x509
 
       # generate a new cert
       csr_cert = OpenSSL::X509::Certificate.new
