@@ -1,4 +1,10 @@
 Dummy::Application.routes.draw do
+  Rails.application.routes.draw do
+    mount Certify::Engine => "/certify"
+  end
+
+  root :to => "certify/authorities#index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
