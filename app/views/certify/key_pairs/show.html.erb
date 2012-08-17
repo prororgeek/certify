@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Uniqueid:</b>
+  <%= @keypair.uniqueid %>
+</p>
+
+<p>
+  <b>Ssldata:</b>
+  <%= @keypair.ssldata %>
+</p>
+
+<p>
+  <b>Authority:</b>
+  <%= @keypair.authority_id %>
+</p>
+
+<%= link_to 'Back', certify_authority_path(@keypair.authority) %>

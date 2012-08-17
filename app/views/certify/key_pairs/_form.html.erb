@@ -1,0 +1,28 @@
+<%= form_for(@keypair) do |f| %>
+  <% if @keypair.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@keypair.errors.count, "error") %> prohibited this certify_private_key from being saved:</h2>
+
+      <ul>
+      <% @keypair.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :uniqueid %><br />
+    <%= f.text_field :uniqueid, :readonly => true %>
+  </div>
+  <div class="field">
+    <%= f.label :ssldata %><br />
+    <%= f.text_area :ssldata %>
+  </div>
+  <div class="field">
+    <%= f.hidden_field :authority_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

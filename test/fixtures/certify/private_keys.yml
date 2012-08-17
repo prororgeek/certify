@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  uniqueid: MyString
+  ssldata: MyText
+  authority_id: 1
+
+two:
+  uniqueid: MyString
+  ssldata: MyText
+  authority_id: 1

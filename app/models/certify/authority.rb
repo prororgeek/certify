@@ -11,6 +11,7 @@ module Certify
 
     # associations
     has_many :certificates, :dependent => :destroy, :inverse_of => :authority
+    has_many :key_pairs, :dependent => :destroy, :inverse_of => :authority
 
     # validates
     validates :uniqueid, :uniqueness => true
@@ -152,5 +153,50 @@ module Certify
     rescue
       nil
     end
+
+    def sign_csr(csr_obj)
+      # create a new certificate record to get a unique db id
+      certificate = self.certificates.build(:ssldata => "Certificate pending")
+      certificate.save!
+
+      # read the csr
+      csr = csr_obj.to_x509
+
+      # get the ca_cert
+      ca_cert = self.root_certificate
+      ca_key = self.private_key
+
+      # generate a new cert
+      csr_cert = OpenSSL::X509::Certificate.new
+      csr_cert.serial = certificate.id
+      csr_cert.version = 2
+      csr_cert.not_before = Time.now
+      csr_cert.not_after = Time.now + (365 * 24 * 60 * 60)
+
+      csr_cert.subject = csr.subject
+      csr_cert.public_key = csr.public_key
+      csr_cert.issuer = ca_cert.subject
+
+      extension_factory = OpenSSL::X509::ExtensionFactory.new
+      extension_factory.subject_certificate = csr_cert
+      extension_factory.issuer_certificate = ca_cert
+
+      extension_factory.create_extension 'basicConstraints', 'CA:FALSE'
+      extension_factory.create_extension 'keyUsage',
+                                         'keyEncipherment,dataEncipherment,digitalSignature'
+      extension_factory.create_extension 'subjectKeyIdentifier', 'hash'
+
+      signed_cert = csr_cert.sign ca_key, OpenSSL::Digest::SHA1.new
+
+      # update certificate attribute
+      certificate.update_attributes(:ssldata => signed_cert.to_pem)
+
+      # update the key id if possible
+      certificate.update_attributes(:key_pair => csr_obj.key_pair ) if csr_obj.key_pair
+
+      # emit result
+      certificate
+    end
+
   end
 end

@@ -1,0 +1,19 @@
+<table>
+  <tr>
+    <th>Unique ID</th>
+    <th>Associated Certificates</th>
+    <th>Actions</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% key_pairs.each do |private_key| %>
+      <tr>
+        <td><%= private_key.uniqueid %></td>
+        <td></td>
+        <td><%= link_to 'Download Key', certify_key_pairs_download_path(private_key, :certify_authority_id => private_key.authority, :format => :pem)%></td>
+        <td><%= link_to 'Show', certify_key_pair_path(private_key, :certify_authority_id => private_key.authority)%></td>
+        <td><%= link_to 'Destroy', certify_key_pair_path(private_key, :certify_authority_id => private_key.authority), confirm: 'Are you sure?', method: :delete %></td>
+      </tr>
+  <% end %>
+</table>

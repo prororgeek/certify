@@ -33,12 +33,23 @@ module Certify
       # get the ca
       @authority = Certify::Authority.find(params[:certify_authority_id])
 
-      # create the cert
-      @certificate = Certify::Certificate.sign_csr_for_ca(params[:csr], @authority)
+      # generate a new one
+      @certificate = Certify::Certificate.new(params[:certificate])
+
+      # generate the csr
+      if (params[:csr] && params[:csr] != "")
+        csr = Certify::Csr.new :data => params[:csr]
+      else
+        kp = Certify::KeyPair.find(params[:keypair][:id])
+        csr = kp.generate_csr('CN=ca/DC=example')
+      end
+
+      # sign the csr
+      @certificate = @authority.sign_csr(csr)
 
       # format
       respond_to do |format|
-        if @certificate.valid?
+        if @certificate && @certificate.valid?
           format.html { redirect_to certify_authority_path(@authority), notice: 'Certificate was successfully created.' }
           format.json { render json: @certificate, status: :created, location: @certificate }
         else
@@ -61,6 +72,21 @@ module Certify
       respond_to do |format|
         format.html { redirect_to certify_authority_path(@authority), notice: 'Certificate removed' }
         format.json { head :no_content }
+      end
+    end
+
+
+    def download
+      # get the ca
+      @authority = Certify::Authority.find(params[:certify_authority_id])
+
+      # get the certificate
+      @certificate = Certify::Certificate.find(params[:id])
+
+      # respond by specific format
+      respond_to do |format|
+        format.cer { send_data @certificate.to_pem, :filename => "#{@certificate.uniqueid}.cer", :type => "application/x-x509-ca-cert" }
+        format.p12 { send_data @certificate.to_p12!(:password => params[:password], :display => params[:display]).to_der, :filename => "#{@certificate.uniqueid}.p12", :type => "application/x-x509-ca-cert" }
       end
     end
   end

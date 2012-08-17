@@ -26,13 +26,17 @@ EUKCs2HmUX2HQTkA7EoO
 -----END CERTIFICATE REQUEST-----"
 
 
+      # create the cse object
+      csr_obj = Csr.new(:data => csr)
+
       # create the certificate
-      cert = Certificate.sign_csr_for_ca(csr, ca)
+      cert = ca.sign_csr(csr_obj)
 
       # validate
       assert cert.valid?, cert.errors.full_messages.join('; ')
       assert !cert.new_record?, "Record was not saved during generation"
       assert_equal cert.serial, cert.id
+      assert !cert.to_p12(:password => "testpwd") # we have no associated private key in the database
 
       cert2 = Certificate.find_by_serial(cert.id)
       assert cert2, "Certificate not found"

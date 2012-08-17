@@ -1,0 +1,2 @@
+module Certify::KeyPairsHelper
+end

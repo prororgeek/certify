@@ -37,25 +37,14 @@
 </p>
 
 <h1>Listing certificates</h1>
-
-<table>
-  <tr>
-    <th>Serial</th>
-    <th>Data</th>
-    <th></th>
-    <th></th>
-  </tr>
-
-  <% @authority.certificates.each do |certificate| %>
-      <tr>
-        <td><%= certificate.serial %></td>
-        <td><%= certificate.ssldata %></td>
-        <td><%= link_to 'Show', certify_certificate_path(certificate, :certify_authority_id => certificate.authority)%></td>
-        <td><%= link_to 'Destroy', certify_certificate_path(certificate, :certify_authority_id => certificate.authority), confirm: 'Are you sure?', method: :delete %></td>
-      </tr>
-  <% end %>
-</table>
+<%= render "certify/certificates/index_partial", :certificates => @authority.certificates %>
 <BR/>
 
+<h1>Listing keys</h1>
+<%= render "certify/key_pairs/index_partial", :key_pairs => @authority.key_pairs%>
+<BR/>
+
+
 <%= link_to 'Add Certificate', new_certify_certificate_path(@authority) %> |
+<%= link_to 'Add Key Pair', new_certify_key_pair_path(@authority) %> |
 <%= link_to 'Back', certify_authorities_path %>

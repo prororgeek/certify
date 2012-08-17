@@ -13,12 +13,23 @@
         </div>
     <% end %>
 
+    <p>You can paste a CSR in PEM format which will be signed from the CA</p>
     <div class="field">
-      <label for="csr">Signing Request</label>:
-      <textarea id="csr" name="csr" size="30" type="text"></textarea><br/>
+      <textarea id="csr" name="csr" size="30" type="text" style="width:400px; height:150px;"></textarea><br/>
     </div>
+
+    <p>OR</p>
+    <p>You select a key pair from the database</p>
+    <div class="field">
+      <%= collection_select(:keypair, :id, @authority.key_pairs, :id, :uniqueid, options ={:prompt => "-Select a key pair"}) %>
+    </div>
+
+    <br/>
+    <br/>
 
     <div class="actions">
       <%= f.submit %>
     </div>
+
+    <br/>
 <% end %>

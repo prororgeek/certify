@@ -4,10 +4,11 @@ module Certify
     self.table_name=  'certify_certificates'
 
     # accessor
-    attr_accessible :certify_authority, :ssldata, :uniqueid, :serial
+    attr_accessible :authority, :ssldata, :uniqueid, :serial, :key_pair
 
     # associations
     belongs_to :authority, :inverse_of => :certificates
+    belongs_to :key_pair, :inverse_of => :certificates
 
     # validates
     validates :uniqueid, :uniqueness => true
@@ -16,59 +17,51 @@ module Certify
     # handler
     after_initialize :generate_unique_id
 
-    def sslcertificate
-      OpenSSL::X509::Certificate.new(self.ssldata) if self.ssldata
+    def to_x509!
+      OpenSSL::X509::Certificate.new(self.ssldata)
+    end
+
+    def to_x509
+      begin
+        to_x509!
+      rescue
+        nil
+      end
+    end
+
+    def to_pem
+      self.ssldata
+    end
+
+    def to_p12!(options = {})
+      raise "Missing key pair to generate the PKCS12 file" unless self.key_pair
+
+      pkey = key_pair.to_x509
+      cert = self.to_x509!
+
+      password = options[:password]
+      password = "test" unless password
+
+      friendly_key = options[:display]
+      friendly_key = "key" unless friendly_key
+
+      OpenSSL::PKCS12::create(password, friendly_key, pkey, cert, [ self.authority.root_certificate ])
+    end
+
+    def to_p12(password)
+      begin
+        to_p12!(password)
+      rescue
+        nil
+      end
     end
 
     def serial
-      if sslcertificate
-        sslcertificate.serial
+      if to_x509
+        to_x509.serial
       else
         0
       end
-    end
-
-    def self.sign_csr_for_ca(csr_in_pem_format, ca)
-      # create a new certificate record to get a unique db id
-      certificate = ca.certificates.build(:ssldata => "Certificate pending")
-      if !certificate.save
-        nil
-      end
-
-      # read the csr
-      csr = OpenSSL::X509::Request.new(csr_in_pem_format)
-
-      # get the ca_cert
-      ca_cert = ca.root_certificate
-      ca_key = ca.private_key
-
-      # generate a new cert
-      csr_cert = OpenSSL::X509::Certificate.new
-      csr_cert.serial = certificate.id
-      csr_cert.version = 2
-      csr_cert.not_before = Time.now
-      csr_cert.not_after = Time.now + (365 * 24 * 60 * 60)
-
-      csr_cert.subject = csr.subject
-      csr_cert.public_key = csr.public_key
-      csr_cert.issuer = ca_cert.subject
-
-      extension_factory = OpenSSL::X509::ExtensionFactory.new
-      extension_factory.subject_certificate = csr_cert
-      extension_factory.issuer_certificate = ca_cert
-
-      extension_factory.create_extension 'basicConstraints', 'CA:FALSE'
-      extension_factory.create_extension 'keyUsage',
-                                         'keyEncipherment,dataEncipherment,digitalSignature'
-      extension_factory.create_extension 'subjectKeyIdentifier', 'hash'
-
-      csr_cert.sign ca_key, OpenSSL::Digest::SHA1.new
-
-      # update certificate attribute
-      certificate.update_attributes(:ssldata => csr_cert.to_pem)
-
-      # emit result
-      certificate
     end
 
     def self.find_by_serial(serial)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120423195509) do
+ActiveRecord::Schema.define(:version => 20120817180848) do
 
   create_table "certify_authorities", :force => true do |t|
     t.string   "uniqueid"
@@ -22,6 +22,15 @@ ActiveRecord::Schema.define(:version => 20120423195509) do
   end
 
   create_table "certify_certificates", :force => true do |t|
+    t.string   "uniqueid"
+    t.text     "ssldata"
+    t.integer  "authority_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "key_pair_id"
+  end
+
+  create_table "certify_key_pairs", :force => true do |t|
     t.string   "uniqueid"
     t.text     "ssldata"
     t.integer  "authority_id"

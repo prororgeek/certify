@@ -1,0 +1,31 @@
+<table>
+  <tr>
+    <th>Serial</th>
+    <th>Associated Key Pair</th>
+    <th style="text-align: left;">Actions</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% certificates.each do |certificate| %>
+      <tr>
+        <td><%= certificate.serial %></td>
+        <td>
+          <% if certificate.key_pair %>
+            <%= link_to certificate.key_pair.uniqueid, certify_key_pair_path(certificate.key_pair, :certify_authority_id => certificate.authority) %>
+          <% else %>
+            issued by CSR
+          <% end %>
+        </td>
+        <td><%= link_to "Download Certificate", certify_certificate_download_path(certificate, :certify_authority_id => certificate.authority, :format => :cer) %></td>
+        <td>
+          <% if certificate.key_pair %>
+            <%= link_to "Download p12-File", certify_certificate_download_path(certificate, :certify_authority_id => certificate.authority, :password => "test", :format => :p12 ) %></td>
+          <% else %>
+            <center>-/-</center>
+          <% end %>
+        <td><%= link_to 'Show', certify_certificate_path(certificate, :certify_authority_id => certificate.authority)%></td>
+        <td><%= link_to 'Destroy', certify_certificate_path(certificate, :certify_authority_id => certificate.authority), confirm: 'Are you sure?', method: :delete %></td>
+      </tr>
+  <% end %>
+</table>
